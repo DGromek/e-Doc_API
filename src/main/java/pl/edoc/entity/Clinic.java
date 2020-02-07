@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="clinic")
@@ -37,5 +39,8 @@ public class Clinic {
     @NotEmpty
     @Column(columnDefinition = "varchar(11)")
     private String phoneNumber;
+
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
+    private List<Appointment> appointments = new ArrayList<>();
 
 }

@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="doctor")
@@ -27,5 +29,6 @@ public class Doctor {
     @Column(columnDefinition="MEDIUMBLOB")
     private byte[] photo;
 
-
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    private List<Appointment> appointments = new ArrayList<>();
 }
