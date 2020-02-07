@@ -19,10 +19,10 @@ public class Doctor {
     private int id;
 
     @NotEmpty
-    String firstName;
+    private String firstName;
 
     @NotEmpty
-    String lastName;
+    private String lastName;
 
     @Column(columnDefinition="MEDIUMBLOB")
     private byte[] photo;

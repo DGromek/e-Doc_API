@@ -22,43 +22,43 @@ public class Patient {
     @Id
     @PESEL
     @Column(columnDefinition = "varchar(11)")
-    String pesel;
+    private String pesel;
 
     @NotEmpty
-    String firstName;
+    private String firstName;
 
     @NotEmpty
-    String lastName;
+    private String lastName;
 
     @NotEmpty
-    char gender;
+    private char gender;
 
     @NotEmpty
-    String city;
+    private String city;
 
     @NotEmpty
     @Column(columnDefinition = "varchar(5)")
-    String postal_code;
+    private String postal_code;
 
     @NotEmpty
-    String street;
+    private String street;
 
     @NotEmpty
     @Column(columnDefinition = "varchar(4)")
-    String houseNr;
+    private String houseNr;
 
     @NotEmpty
-    short flatNr;
+    private short flatNr;
 
     @NotEmpty
     @Email
-    String email;
+    private String email;
 
     @NotEmpty
     @Column(columnDefinition = "varchar(11)")
-    String phoneNumber;
+    private String phoneNumber;
 
-    boolean isInsured;
+    private boolean isInsured;
 
 
 }
