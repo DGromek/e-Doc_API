@@ -1,4 +1,4 @@
-package pl.edoc.config;
+package pl.edoc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
