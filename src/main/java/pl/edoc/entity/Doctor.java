@@ -27,4 +27,5 @@ public class Doctor {
     @Column(columnDefinition="MEDIUMBLOB")
     private byte[] photo;
 
+
 }

@@ -47,7 +47,6 @@ public class Patient {
     @Column(columnDefinition = "varchar(4)")
     private String houseNr;
 
-    @NotEmpty
     private short flatNr;
 
     @NotEmpty
