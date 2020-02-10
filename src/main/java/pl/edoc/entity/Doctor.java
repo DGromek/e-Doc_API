@@ -26,6 +26,9 @@ public class Doctor {
     @NotEmpty
     private String lastName;
 
+    @NotEmpty
+    private String speciality;
+
     @Column(columnDefinition="MEDIUMBLOB")
     private byte[] photo;
 
