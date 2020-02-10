@@ -43,4 +43,6 @@ public class Clinic {
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
 
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
+    private List<Schedule> schedules = new ArrayList<>();
 }
