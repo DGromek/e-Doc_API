@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.pl.PESEL;
+import pl.edoc.dto.PatientDTO;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -58,4 +59,16 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<Appointment> appointments = new ArrayList<>();
 
+    public Patient(PatientDTO patientDTO) {
+        this.pesel = patientDTO.getPesel();
+        this.firstName = patientDTO.getFirstName();
+        this.lastName = patientDTO.getLastName();
+        this.password = patientDTO.getPassword();
+        this.city = patientDTO.getCity();
+        this.postalCode = patientDTO.getPostalCode();
+        this.street = patientDTO.getStreet();
+        this.houseNr = patientDTO.getHouseNr();
+        this.email = patientDTO.getEmail();
+        this.phoneNumber = patientDTO.getPhoneNr();
+    }
 }
