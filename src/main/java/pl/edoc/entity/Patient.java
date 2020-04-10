@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ public class Patient {
     private String lastName;
 
     @NotEmpty
-    @Min(8)
+    @Size(min = 2)
     private String password;
 
     @NotEmpty
