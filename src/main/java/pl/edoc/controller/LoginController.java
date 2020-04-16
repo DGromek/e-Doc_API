@@ -5,7 +5,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,21 +32,18 @@ public class LoginController {
 
     @PostMapping("patient/login")
     public ResponseEntity login(@RequestBody Credintials credintials) {
-        try {
-            Patient patient = patientService.findByPesel(credintials.getPesel());
 
-            if (patient == null || !bCryptPasswordEncoder.matches(credintials.getPassword(), patient.getPassword())) {
-                return new ResponseEntity(HttpStatus.FORBIDDEN);
-            }
+        Patient patient = patientService.findByPesel(credintials.getPesel());
 
-            String token = JWT.create()
-                    .withSubject(patient.getPesel())
-                    .withIssuedAt(new Date(System.currentTimeMillis()))
-                    .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_DURATION))
-                    .sign(Algorithm.HMAC512(SECRET_512));
-            return new ResponseEntity<>(token, HttpStatus.OK);
-        } catch (UsernameNotFoundException e) {
+        if (patient == null || !bCryptPasswordEncoder.matches(credintials.getPassword(), patient.getPassword())) {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
+
+        String token = JWT.create()
+                .withSubject(patient.getPesel())
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_DURATION))
+                .sign(Algorithm.HMAC512(SECRET_512));
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 }
