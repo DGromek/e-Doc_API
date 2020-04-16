@@ -1,4 +1,4 @@
 INSERT INTO patient(pesel, first_name, last_name, password, postal_code, city, street, house_nr, email, phone_number) VALUES
-('68072503271', 'Adrian', 'Grzelczyk', '$2y$12$DLKrbccxHsANRrbi8S18f.rzqm6z4UHndsnrhLM9ipo6JHgnZFYFO', '05-271', 'Warszawa', 'Al. Jana Pawła II', '76 m.34', 'aGrzelczyk@onet.pl', '893 271 312'),
-('55021121379', 'Grażyna', 'Zawadzka', '$2y$12$DLKrbccxHsANRrbi8S18f.rzqm6z4UHndsnrhLM9ipo6JHgnZFYFO', '90-162', 'Łódź', 'ul. Kardynała Stefana Wyszyńskiego', '42A', 'kicia21@wp.pl', '571 921 901'),
-('99052101841', 'Karol', 'Krzynowicz', '$2y$12$DLKrbccxHsANRrbi8S18f.rzqm6z4UHndsnrhLM9ipo6JHgnZFYFO', '12-654', 'Stara Wieś', 'Stara Wieś', '231', 'KKrzyno99@gmail.com', '231 716 800');
+('68072503271', 'Adrian', 'Grzelczyk', '$2y$12$QUGnEfrCGvHcbZGlpXUW.eaGygpqDsdgGGo3HunGqnHlM6dzSkXFu', '05-271', 'Warszawa', 'Al. Jana Pawła II', '76 m.34', 'aGrzelczyk@onet.pl', '893 271 312'),
+('55021121379', 'Grażyna', 'Zawadzka', '$2y$12$QUGnEfrCGvHcbZGlpXUW.eaGygpqDsdgGGo3HunGqnHlM6dzSkXFu', '90-162', 'Łódź', 'ul. Kardynała Stefana Wyszyńskiego', '42A', 'kicia21@wp.pl', '571 921 901'),
+('99052101841', 'Karol', 'Krzynowicz', '$2y$12$QUGnEfrCGvHcbZGlpXUW.eaGygpqDsdgGGo3HunGqnHlM6dzSkXFu', '12-654', 'Stara Wieś', 'Stara Wieś', '231', 'KKrzyno99@gmail.com', '231 716 800');
