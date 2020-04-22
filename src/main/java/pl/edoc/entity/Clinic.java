@@ -3,6 +3,7 @@ package pl.edoc.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Clinic {
+public class Clinic implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,4 +46,9 @@ public class Clinic {
 
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
     private List<Schedule> schedules = new ArrayList<>();
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_CLINIC";
+    }
 }

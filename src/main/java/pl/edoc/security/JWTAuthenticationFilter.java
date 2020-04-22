@@ -5,6 +5,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import static pl.edoc.security.SecurityConfig.SECRET_512;
 
@@ -25,15 +27,15 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
-                                    FilterChain chain) throws IOException, ServletException {
-        String header = req.getHeader("Authorization");
+        FilterChain chain) throws IOException, ServletException {
+            String header = req.getHeader("Authorization");
 
-        if (header == null || !header.startsWith("Bearer ")) {
-            chain.doFilter(req, res);
-            return;
-        }
+            if (header == null || !header.startsWith("Bearer ")) {
+                chain.doFilter(req, res);
+                return;
+            }
 
-        UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
+            UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(req, res);
     }
@@ -45,9 +47,9 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
                     .build()
                     .verify(token.replace("Bearer ", ""));
             String user = decodedJWT.getSubject();
-
-            if (user != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+            String role = decodedJWT.getClaim("Role").asString();
+            if (user != null && role != null) {
+                return new UsernamePasswordAuthenticationToken(user, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
             }
             return null;
         }

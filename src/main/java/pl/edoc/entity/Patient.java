@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.pl.PESEL;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import pl.edoc.dto.PatientDTO;
 
 import javax.persistence.*;
@@ -12,6 +15,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Entity
@@ -19,7 +24,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Patient {
+public class Patient implements GrantedAuthority {
 
     @Id
     @PESEL
@@ -71,5 +76,10 @@ public class Patient {
         this.houseNr = patientDTO.getHouseNr();
         this.email = patientDTO.getEmail();
         this.phoneNumber = patientDTO.getPhoneNr();
+    }
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_PATIENT";
     }
 }
