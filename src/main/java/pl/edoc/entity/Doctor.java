@@ -1,5 +1,6 @@
 package pl.edoc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,8 +34,10 @@ public class Doctor {
     private byte[] photo;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Appointment> appointments = new ArrayList<>();
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Schedule> schedules = new ArrayList<>();
 }

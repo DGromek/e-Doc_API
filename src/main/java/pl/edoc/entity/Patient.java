@@ -1,5 +1,6 @@
 package pl.edoc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -63,6 +64,7 @@ public class Patient implements GrantedAuthority {
 
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Appointment> appointments = new ArrayList<>();
 
     public Patient(PatientDTO patientDTO) {

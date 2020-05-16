@@ -1,5 +1,7 @@
 package pl.edoc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,12 +26,15 @@ public class Appointment {
     private LocalDateTime dateOfAppointment;
 
     @ManyToOne
+    @JsonBackReference
     private Patient patient;
 
     @ManyToOne
+    @JsonManagedReference
     private Doctor doctor;
 
     @ManyToOne
+    @JsonManagedReference
     private Clinic clinic;
 
     @Enumerated(EnumType.STRING)

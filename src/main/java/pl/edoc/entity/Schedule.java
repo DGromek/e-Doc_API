@@ -1,5 +1,6 @@
 package pl.edoc.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -55,8 +56,10 @@ public class Schedule {
     private LocalTime su_end;
 
     @ManyToOne
+    @JsonBackReference
     private Doctor doctor;
 
     @ManyToOne
+    @JsonBackReference
     private Clinic clinic;
 }
