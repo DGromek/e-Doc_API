@@ -13,6 +13,7 @@ import pl.edoc.dto.Credintials;
 import pl.edoc.entity.Patient;
 import pl.edoc.services.PatientService;
 
+import java.util.Collections;
 import java.util.Date;
 
 import static pl.edoc.security.SecurityConfig.SECRET_512;
@@ -45,6 +46,6 @@ public class LoginController {
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_DURATION))
                 .sign(Algorithm.HMAC512(SECRET_512));
-        return new ResponseEntity<>(token, HttpStatus.OK);
+    return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
     }
 }

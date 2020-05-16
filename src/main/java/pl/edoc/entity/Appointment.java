@@ -3,6 +3,7 @@ package pl.edoc.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.edoc.model.Status;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,4 +31,7 @@ public class Appointment {
 
     @ManyToOne
     private Clinic clinic;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

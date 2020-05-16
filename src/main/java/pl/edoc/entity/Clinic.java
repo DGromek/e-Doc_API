@@ -3,6 +3,7 @@ package pl.edoc.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -25,8 +26,11 @@ public class Clinic implements GrantedAuthority {
     private String name;
 
     @NotEmpty
-    @Column(columnDefinition = "varchar(5)")
+    @Column(columnDefinition = "varchar(6)")
     private String postal_code;
+
+    @NotEmpty
+    private String city;
 
     @NotEmpty
     private String street;
@@ -35,7 +39,7 @@ public class Clinic implements GrantedAuthority {
     @Column(columnDefinition = "varchar(4)")
     private String houseNr;
 
-    private short flatNr;
+    private Integer flatNr;
 
     @NotEmpty
     @Column(columnDefinition = "varchar(11)")
