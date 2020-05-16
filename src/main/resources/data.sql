@@ -17,7 +17,7 @@ INSERT INTO clinic(name, postal_code, city, street, house_nr, flat_nr, phone_num
 ('Centrum Medyczne im. dr. L. Rydygiera Sp. z o.o.', '90-001', 'Łódź', 'Doktora Seweryna Sterlinga', '13', NULL, '426323465');
 
 INSERT INTO appointment(date_of_appointment, clinic_id, doctor_id, patient_pesel, status) VALUES
-('2020-06-02 13:30', 1, 2, '99052101841', 'DONE'),
-('2020-12-01 12:15', 2, 4, '99052101841', 'PENDING'),
-('2020-08-12 08:00', 1, 3, '99052101841', 'ACCEPTED');
+('2020-06-02 13:30', 1, 2, '68072503271', 'DONE'),
+('2020-12-01 12:15', 2, 4, '68072503271', 'PENDING'),
+('2020-08-12 08:00', 1, 3, '68072503271', 'CANCELED');
 
