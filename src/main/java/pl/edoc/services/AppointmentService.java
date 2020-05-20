@@ -17,7 +17,7 @@ public class AppointmentService {
         this.appointmentRepository = appointmentRepository;
     }
 
-    public List<Appointment> findAllByPatient_Pesel(String pesel) {
+    public Iterable<Appointment> findAllByPatient_Pesel(String pesel) {
         return appointmentRepository.findAllByPatient_Pesel(pesel);
     }
 }

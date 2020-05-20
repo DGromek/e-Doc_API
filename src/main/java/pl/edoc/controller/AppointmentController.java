@@ -11,7 +11,7 @@ import pl.edoc.entity.Appointment;
 import pl.edoc.services.AppointmentService;
 
 @Controller
-@RequestMapping("/appointment")
+@RequestMapping("/appointments")
 public class AppointmentController {
 
     private AppointmentService appointmentService;
@@ -22,8 +22,7 @@ public class AppointmentController {
     }
 
     @GetMapping
-    public ResponseEntity<Iterable<Appointment>> getPatientAppointments(
-            Authentication authentication) {
+    public ResponseEntity<Iterable<Appointment>> getPatientAppointments(Authentication authentication) {
         String userPesel = (String) authentication.getPrincipal();
         return new ResponseEntity<>(appointmentService.findAllByPatient_Pesel(userPesel), HttpStatus.OK);
     }

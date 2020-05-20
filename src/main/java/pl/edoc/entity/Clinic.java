@@ -28,7 +28,7 @@ public class Clinic implements GrantedAuthority {
 
     @NotEmpty
     @Column(columnDefinition = "varchar(6)")
-    private String postal_code;
+    private String postalCode;
 
     @NotEmpty
     private String city;

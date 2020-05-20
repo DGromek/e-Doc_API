@@ -13,7 +13,7 @@ import pl.edoc.entity.Patient;
 import pl.edoc.services.PatientService;
 
 @Controller
-@RequestMapping("/patient")
+@RequestMapping("/patients")
 public class PatientController {
     private PatientService patientService;
 

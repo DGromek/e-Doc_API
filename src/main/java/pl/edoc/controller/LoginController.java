@@ -31,7 +31,7 @@ public class LoginController {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
-    @PostMapping("patient/login")
+    @PostMapping("patients/login")
     public ResponseEntity login(@RequestBody Credintials credintials) {
 
         Patient patient = patientService.findByPesel(credintials.getPesel());
