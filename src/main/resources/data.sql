@@ -21,3 +21,7 @@ INSERT INTO appointment(date_of_appointment, clinic_id, doctor_id, patient_pesel
 ('2020-12-01 12:15', 2, 4, '68072503271', 'PENDING'),
 ('2020-08-12 08:00', 1, 3, '68072503271', 'CANCELED');
 
+INSERT INTO schedule(fr_begin, fr_end, mo_begin, mo_end, sa_begin, sa_end, su_begin, su_end, th_begin, th_end, tu_begin, tu_end, we_begin, we_end, clinic_id, doctor_id) VALUES
+('8:00', '16:00', '14:00', '18:00', '8:00', '8:00', '8:00', '8:00', '12:00', '16:30', '15:30', '17:30', '8:00', '16:00', 1, 1),
+('8:00', '16:00', '14:00', '18:00', '8:00', '8:00', '8:00', '8:00', '12:00', '16:30', '15:30', '17:30', '8:00', '16:00', 1, 2);
+
