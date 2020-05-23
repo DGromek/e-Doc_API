@@ -42,7 +42,7 @@ public class LoginController {
 
         String token = JWT.create()
                 .withSubject(patient.getPesel())
-                .withClaim("Role", patient.getAuthority())
+                .withClaim("role", patient.getAuthority())
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_DURATION))
                 .sign(Algorithm.HMAC512(SECRET_512));

@@ -10,10 +10,5 @@ import pl.edoc.entity.Appointment;
 @Transactional
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-//    @Query(value = "SELECT a.date_of_appointment, d.first_name, d.last_name, c.name FROM Appointment a " +
-//            "INNER JOIN Clinic c ON a.clinic_id = c.id " +
-//            "INNER JOIN Doctor d ON a.doctor_id = d.id ", nativeQuery = true)
-//    Iterable<Appointment> getPatientAppointments(String pesel);
-
     Iterable<Appointment> findAllByPatient_Pesel(String pesel);
 }
