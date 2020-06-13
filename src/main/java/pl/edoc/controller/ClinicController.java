@@ -25,8 +25,13 @@ public class ClinicController {
         return new ResponseEntity<>(clinicService.getAllSpecialitiesInClinic(clinicId), HttpStatus.OK);
     }
 
-    @GetMapping()
+    @GetMapping
     public ResponseEntity<Iterable<Clinic>> findAll() {
         return new ResponseEntity<>(clinicService.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{clinicId}")
+    public ResponseEntity<Clinic> getOne(@PathVariable int clinicId) {
+        return new ResponseEntity<>(clinicService.getOne(clinicId), HttpStatus.OK);
     }
 }

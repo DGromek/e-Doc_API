@@ -21,4 +21,8 @@ public class ClinicService {
     public Iterable<Clinic> findAll() {
         return clinicRepository.findAll();
     }
+
+    public Clinic getOne(int id) {
+        return clinicRepository.getOne(id);
+    }
 }
