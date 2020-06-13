@@ -7,6 +7,6 @@ import pl.edoc.entity.Patient;
 
 @Repository
 @Transactional
-public interface PatientRepository extends JpaRepository<Patient, Long> {
+public interface PatientRepository extends JpaRepository<Patient, Integer> {
     Patient findByPesel(String pesel);
 }

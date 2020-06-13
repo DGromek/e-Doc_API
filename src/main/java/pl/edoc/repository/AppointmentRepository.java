@@ -8,7 +8,7 @@ import pl.edoc.entity.Appointment;
 
 @Repository
 @Transactional
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
+public interface AppointmentRepository extends JpaRepository<Appointment, Integer> {
 
     Iterable<Appointment> findAllByPatient_Pesel(String pesel);
 }

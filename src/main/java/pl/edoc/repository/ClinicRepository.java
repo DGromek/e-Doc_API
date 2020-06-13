@@ -8,7 +8,7 @@ import pl.edoc.entity.Clinic;
 
 @Repository
 @Transactional
-public interface ClinicRepository extends JpaRepository<Clinic, Long> {
+public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
 
     @Query(value = "select d.speciality from doctor d " +
             "inner join appointment a on d.id = a.doctor_id " +
