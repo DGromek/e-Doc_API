@@ -11,9 +11,9 @@ import pl.edoc.entity.Clinic;
 public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
 
     @Query(value = "select d.speciality from doctor d " +
-            "inner join appointment a on d.id = a.doctor_id " +
-            "inner join clinic c on a.clinic_id = c.id " +
-            "where a.clinic_id = ?1", nativeQuery = true)
+            "inner join schedule s on d.id = s.doctor_id " +
+            "inner join clinic c on s.clinic_id = c.id " +
+            "where s.clinic_id = ?1", nativeQuery = true)
     Iterable<String> getAllSpecialitiesInClinic(int clinicId);
 
 }
