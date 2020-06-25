@@ -19,16 +19,16 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
-    public DailySchedule findScheduleForGivenDate(Date date, int doctorId, int clinicId) {
+    public DailySchedule findScheduleForGivenDate(Date date, int clinicId, int doctorId) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         // We consider Monday as FIRST day of the week, and Sunday as LAST.
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-        Schedule schedule = scheduleRepository.getByDoctor_IdAndClinic_Id(doctorId, clinicId);
+        Schedule schedule = scheduleRepository.getByClinic_IdAndDoctor_Id(clinicId, doctorId);
         switch (dayOfWeek) {
             case 1:
-                return new DailySchedule(schedule.getSu_end(), schedule.getSu_end());
+                return new DailySchedule(schedule.getSu_begin(), schedule.getSu_end());
             case 2:
                 return new DailySchedule(schedule.getMo_begin(), schedule.getMo_end());
             case 3:
@@ -36,7 +36,7 @@ public class ScheduleService {
             case 4:
                 return new DailySchedule(schedule.getWe_begin(), schedule.getWe_end());
             case 5:
-                return new DailySchedule(schedule.getTh_begin(), schedule.getTu_end());
+                return new DailySchedule(schedule.getTh_begin(), schedule.getTh_end());
             case 6:
                 return new DailySchedule(schedule.getFr_begin(), schedule.getFr_end());
             case 7:

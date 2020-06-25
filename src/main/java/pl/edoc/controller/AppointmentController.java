@@ -1,8 +1,10 @@
 package pl.edoc.controller;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -36,7 +38,7 @@ public class AppointmentController {
 
     // TODO: Check naming convention of REST endpoints that are not connected to table.
     @GetMapping("/free-terms")
-    public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)Date date, int doctorId, int clinicId) {
+    public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)Date date, int clinicId, int doctorId) {
         return new ResponseEntity<>(termService.getAllFreeTermsForGivenDate(date, clinicId, doctorId), HttpStatus.OK);
         //return new ResponseEntity<>(HttpStatus.OK);
     }
