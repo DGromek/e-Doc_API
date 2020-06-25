@@ -9,7 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import pl.edoc.dto.AppointmentDTO;
 import pl.edoc.entity.Appointment;
 import pl.edoc.services.AppointmentService;
 import pl.edoc.services.TermService;
@@ -34,6 +37,12 @@ public class AppointmentController {
     public ResponseEntity<Iterable<Appointment>> getPatientAppointments(Authentication authentication) {
         String userPesel = (String) authentication.getPrincipal();
         return new ResponseEntity<>(appointmentService.findAllByPatient_Pesel(userPesel), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Appointment> savePatientAppointment(@RequestBody AppointmentDTO appointmentDto, Authentication authentication) {
+        String userPesel = (String) authentication.getPrincipal();
+        return new ResponseEntity<>(appointmentService.save(appointmentDto, userPesel), HttpStatus.OK);
     }
 
     // TODO: Check naming convention of REST endpoints that are not connected to table.

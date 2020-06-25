@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import pl.edoc.dto.AppointmentDTO;
 import pl.edoc.model.Status;
 
 import javax.persistence.*;
@@ -39,4 +40,12 @@ public class Appointment {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    public Appointment(AppointmentDTO appointmentDto, Patient patient, Doctor doctor, Clinic clinic) {
+        this.dateOfAppointment = appointmentDto.getDateOfAppointment();
+        this.patient = patient;
+        this.doctor = doctor;
+        this.clinic = clinic;
+        this.status = Status.PENDING;
+    }
 }
