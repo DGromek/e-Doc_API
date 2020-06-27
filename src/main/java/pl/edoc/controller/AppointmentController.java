@@ -1,10 +1,8 @@
 package pl.edoc.controller;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,6 +15,7 @@ import pl.edoc.entity.Appointment;
 import pl.edoc.services.AppointmentService;
 import pl.edoc.services.TermService;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.Date;
 
@@ -24,6 +23,7 @@ import java.util.Date;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
+    public static final int TIMEZONE_GMT_PLUS2 = 2;
     private AppointmentService appointmentService;
     private TermService termService;
 
@@ -42,6 +42,9 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<Appointment> savePatientAppointment(@RequestBody AppointmentDTO appointmentDto, Authentication authentication) {
         String userPesel = (String) authentication.getPrincipal();
+        // TODO: Make it more elegant way
+        appointmentDto.setDateOfAppointment(appointmentDto.getDateOfAppointment()
+                                                          .plusHours(TIMEZONE_GMT_PLUS2)); //Because of the timezone
         return new ResponseEntity<>(appointmentService.save(appointmentDto, userPesel), HttpStatus.OK);
     }
 
@@ -49,11 +52,5 @@ public class AppointmentController {
     @GetMapping("/free-terms")
     public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)Date date, int clinicId, int doctorId) {
         return new ResponseEntity<>(termService.getAllFreeTermsForGivenDate(date, clinicId, doctorId), HttpStatus.OK);
-        //return new ResponseEntity<>(HttpStatus.OK);
     }
-
-//    @GetMapping("/free-terms")
-//    public ResponseEntity getFreeTermsForGivenDate(int doctorId, int clinicId) {
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
 }

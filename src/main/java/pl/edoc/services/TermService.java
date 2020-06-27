@@ -12,6 +12,7 @@ import java.util.List;
 
 @Service
 public class TermService {
+
     private AppointmentService appointmentService;
     private ScheduleService scheduleService;
 
@@ -22,13 +23,23 @@ public class TermService {
     }
 
     public Iterable<LocalTime> getAllFreeTermsForGivenDate(Date dateOfAppointment, int clinicId, int doctorId) {
-//         TODO: remove takenTerms from the list of free terms.
-//        Iterable<LocalDateTime> takenTerms = appointmentService.findAllDatesOfAppointmentsForGivenDate(dateOfAppointment, clinicId, doctorId);
+        Iterable<LocalDateTime> takenTerms = appointmentService.findAllDatesOfAppointmentsForGivenDate(dateOfAppointment, clinicId,
+                doctorId);
         DailySchedule dailySchedule = scheduleService.findScheduleForGivenDate(dateOfAppointment, clinicId, doctorId);
         List<LocalTime> freeTerms = new ArrayList<>();
 
         for (LocalTime i = dailySchedule.getStartingHour(); i.isBefore(dailySchedule.getEndingHour()); i = i.plusMinutes(30)) {
-            freeTerms.add(i);
+            boolean isTermTaken = false;
+            for (LocalDateTime j : takenTerms) {
+                LocalTime temp = LocalTime.of(j.getHour(), j.getMinute());
+                if (temp.equals(i)) {
+                    isTermTaken = true;
+                    break;
+                }
+            }
+            if (!isTermTaken) {
+                freeTerms.add(i);
+            }
         }
 
         return freeTerms;
