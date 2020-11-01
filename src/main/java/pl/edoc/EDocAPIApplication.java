@@ -9,7 +9,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 public class EDocAPIApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(EDocAPIApplication.class, args);
+        SpringApplication app = new SpringApplication(EDocAPIApplication.class);
+
+        String profile = System.getenv("PROFILE");
+        if (profile == null) {
+            app.setAdditionalProfiles("dev");
+        } else {
+            app.setAdditionalProfiles(profile);
+        }
+        app.run(args);
     }
 
     @Bean
