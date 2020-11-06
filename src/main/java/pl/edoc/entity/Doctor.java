@@ -30,8 +30,8 @@ public class Doctor {
     @NotEmpty
     private String speciality;
 
-    @Column(columnDefinition="MEDIUMBLOB")
-    private byte[] photo;
+//    @Column(columnDefinition="MEDIUMBLOB")
+//    private byte[] photo;
 
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL)
     @JsonBackReference

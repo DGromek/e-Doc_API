@@ -8,7 +8,6 @@
         <version>2.2.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <packaging>war</packaging>
     <groupId>pl</groupId>
     <artifactId>e-doc_api</artifactId>
     <version>0.1</version>
