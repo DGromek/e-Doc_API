@@ -12,11 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.edoc.dto.Credintials;
 import pl.edoc.entity.Patient;
 import pl.edoc.services.PatientService;
+import pl.edoc.utils.JWTUtils;
 
 import java.util.Collections;
-import java.util.Date;
 
-import static pl.edoc.security.SecurityConfig.SECRET_512;
 
 @RestController
 public class LoginController {
@@ -40,12 +39,7 @@ public class LoginController {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         }
 
-        String token = JWT.create()
-                .withSubject(patient.getPesel())
-                .withClaim("role", patient.getAuthority())
-                .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis() + TOKEN_DURATION))
-                .sign(Algorithm.HMAC512(SECRET_512));
+        String token = JWTUtils.getToken(patient.getPesel(), patient.getAuthority());
     return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
     }
 }

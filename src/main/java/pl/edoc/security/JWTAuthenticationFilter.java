@@ -8,16 +8,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import pl.edoc.utils.JWTUtils;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 
-import static pl.edoc.security.SecurityConfig.SECRET_512;
 
 public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     public JWTAuthenticationFilter(AuthenticationManager authManager) {
@@ -27,32 +26,29 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req,
                                     HttpServletResponse res,
-        FilterChain chain) throws IOException, ServletException {
-            String header = req.getHeader("Authorization");
+                                    FilterChain chain) throws IOException, ServletException {
+        String token = req.getHeader("Authorization");
 
-            if (header == null || !header.startsWith("Bearer ")) {
-                chain.doFilter(req, res);
-                return;
-            }
-
-            UsernamePasswordAuthenticationToken authentication = getAuthentication(req);
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        chain.doFilter(req, res);
-    }
-
-    private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        if (token != null) {
-            DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(SECRET_512.getBytes()))
-                    .build()
-                    .verify(token.replace("Bearer ", ""));
-            String user = decodedJWT.getSubject();
-            String role = decodedJWT.getClaim("role").asString();
-            if (user != null && role != null) {
-                return new UsernamePasswordAuthenticationToken(user, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
-            }
-            return null;
+        if (token == null || !token.startsWith("Bearer ")) {
+            chain.doFilter(req, res);
+            return;
         }
-        return null;
+
+        DecodedJWT decodedJWT = JWT.require(Algorithm.HMAC512(JWTUtils.getSecret().getBytes()))
+                .build()
+                .verify(token.replace("Bearer ", ""));
+        String pesel = decodedJWT.getSubject();
+        String role = decodedJWT.getClaim("role").asString();
+
+        if (pesel != null && role != null) {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(pesel, null, Collections.singletonList(new SimpleGrantedAuthority(role)));
+            String refreshedToken = JWTUtils.getToken(pesel, role);
+
+            res.addHeader("Access-Control-Expose-Headers", "Refreshed-token");
+            res.addHeader("Refreshed-token", refreshedToken);
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        }
+
+        chain.doFilter(req, res);
     }
 }
