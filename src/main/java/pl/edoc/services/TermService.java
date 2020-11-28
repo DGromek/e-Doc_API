@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edoc.model.DailySchedule;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class TermService {
         this.scheduleService = scheduleService;
     }
 
-    public Iterable<LocalTime> getAllFreeTermsForGivenDate(Date dateOfAppointment, int clinicId, int doctorId) {
+    public Iterable<LocalTime> getAllFreeTermsForGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId) {
         Iterable<LocalDateTime> takenTerms = appointmentService.findAllDatesOfAppointmentsForGivenDate(dateOfAppointment, clinicId,
                 doctorId);
         DailySchedule dailySchedule = scheduleService.findScheduleForGivenDate(dateOfAppointment, clinicId, doctorId);

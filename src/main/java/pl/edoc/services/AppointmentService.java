@@ -14,6 +14,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
@@ -35,17 +36,8 @@ public class AppointmentService {
         return appointmentRepository.findAllByPatient_Pesel(pesel);
     }
 
-    public Iterable<LocalDateTime> findAllDatesOfAppointmentsForGivenDate(Date dateOfAppointment, int clinicId, int doctorId) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateFormatted = formatter.format(dateOfAppointment);
-        Iterable<Timestamp> temp =  appointmentRepository.findAllDatesOfAppointmentsOnGivenDate(dateFormatted, clinicId, doctorId);
-        List<LocalDateTime> result = new ArrayList<>();
-
-        //Parsing timestamps into LocalDateTime as repository can't do it automatically.
-        for (Timestamp timestamp : temp) {
-            result.add(timestamp.toLocalDateTime());
-        }
-        return result;
+    public Iterable<LocalDateTime> findAllDatesOfAppointmentsForGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId) {
+        return appointmentRepository.findAllDatesOfAppointmentsOnGivenDate(dateOfAppointment, clinicId, doctorId);
     }
 
     public Appointment save(AppointmentDTO appointmentDto, String userPesel) {

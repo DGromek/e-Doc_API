@@ -15,15 +15,14 @@ import pl.edoc.entity.Appointment;
 import pl.edoc.services.AppointmentService;
 import pl.edoc.services.TermService;
 
-import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 @Controller
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    public static final int TIMEZONE_GMT_PLUS2 = 2;
+    public static final int TIMEZONE_GMT_PLUS2 = 1;
     private AppointmentService appointmentService;
     private TermService termService;
 
@@ -44,13 +43,13 @@ public class AppointmentController {
         String userPesel = (String) authentication.getPrincipal();
         // TODO: Make it more elegant way
         appointmentDto.setDateOfAppointment(appointmentDto.getDateOfAppointment()
-                                                          .plusHours(TIMEZONE_GMT_PLUS2)); //Because of the timezone
+                .plusHours(TIMEZONE_GMT_PLUS2)); //Because of the timezone
         return new ResponseEntity<>(appointmentService.save(appointmentDto, userPesel), HttpStatus.OK);
     }
 
     // TODO: Check naming convention of REST endpoints that are not connected to table.
     @GetMapping("/free-terms")
-    public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)Date date, int clinicId, int doctorId) {
+    public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, int clinicId, int doctorId) {
         return new ResponseEntity<>(termService.getAllFreeTermsForGivenDate(date, clinicId, doctorId), HttpStatus.OK);
     }
 }

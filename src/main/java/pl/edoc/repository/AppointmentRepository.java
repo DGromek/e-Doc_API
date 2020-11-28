@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.edoc.entity.Appointment;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Repository
 @Transactional
@@ -18,5 +20,5 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
                    + "WHERE DATE(date_of_appointment) = ?1 "
                    + "AND clinic_id=?2 "
                    + "AND doctor_id=?3", nativeQuery = true)
-    Iterable<Timestamp> findAllDatesOfAppointmentsOnGivenDate(String dateOfAppointment, int clinicId, int doctorId);
+    Iterable<LocalDateTime> findAllDatesOfAppointmentsOnGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId);
 }

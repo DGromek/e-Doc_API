@@ -1,7 +1,5 @@
 package pl.edoc.controller;
 
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.algorithms.Algorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,8 +17,6 @@ import java.util.Collections;
 
 @RestController
 public class LoginController {
-    private static final int TOKEN_DURATION = 1000 * 60 * 15;
-
     private PatientService patientService;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
@@ -40,6 +36,6 @@ public class LoginController {
         }
 
         String token = JWTUtils.getToken(patient.getPesel(), patient.getAuthority());
-    return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
+        return new ResponseEntity<>(Collections.singletonMap("token", token), HttpStatus.OK);
     }
 }
