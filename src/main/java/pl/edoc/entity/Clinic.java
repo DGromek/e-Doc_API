@@ -5,10 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.lang.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +55,11 @@ public class Clinic implements GrantedAuthority {
     @NotEmpty
     @Column(columnDefinition = "varchar(11)")
     private String phoneNumber;
+
+    @OneToOne(mappedBy = "clinic", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    @JsonBackReference
+    private OpeningHours openingHours;
 
     @OneToMany(mappedBy = "clinic", cascade = CascadeType.ALL)
     @JsonBackReference

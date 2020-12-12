@@ -3,15 +3,23 @@ package pl.edoc.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import pl.edoc.entity.Clinic;
+import pl.edoc.entity.OpeningHours;
 import pl.edoc.repository.ClinicRepository;
+import pl.edoc.repository.OpeningHoursRepository;
 
 @Service
 public class ClinicService {
-    private ClinicRepository clinicRepository;
+    private final ClinicRepository clinicRepository;
+    private final OpeningHoursRepository openingHoursRepository;
 
     @Autowired
-    public ClinicService(ClinicRepository clinicRepository) {
+    public ClinicService(ClinicRepository clinicRepository, OpeningHoursRepository openingHoursRepository) {
         this.clinicRepository = clinicRepository;
+        this.openingHoursRepository = openingHoursRepository;
+    }
+
+    public OpeningHours getOpeningHoursForClinic(int clinicId) {
+        return openingHoursRepository.getOne(clinicId);
     }
 
     public Iterable<String> getAllSpecialitiesInClinic(int clinicId) {

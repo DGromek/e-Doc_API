@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.edoc.entity.Clinic;
+import pl.edoc.entity.OpeningHours;
 import pl.edoc.services.ClinicService;
 
 @Controller
@@ -33,5 +34,10 @@ public class ClinicController {
     @GetMapping("/{clinicId}")
     public ResponseEntity<Clinic> getOne(@PathVariable int clinicId) {
         return new ResponseEntity<>(clinicService.getOne(clinicId), HttpStatus.OK);
+    }
+
+    @GetMapping("/openingHours/{clinicId}")
+    public ResponseEntity<OpeningHours> getOpeningHoursForClinic(@PathVariable int clinicId) {
+        return new ResponseEntity<>(clinicService.getOpeningHoursForClinic(clinicId), HttpStatus.OK);
     }
 }

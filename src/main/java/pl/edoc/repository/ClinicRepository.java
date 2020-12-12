@@ -10,7 +10,7 @@ import pl.edoc.entity.Clinic;
 @Transactional
 public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
 
-    @Query(value = "select d.speciality from doctor d " +
+    @Query(value = "select distinct d.speciality from doctor d " +
             "inner join schedule s on d.id = s.doctor_id " +
             "inner join clinic c on s.clinic_id = c.id " +
             "where s.clinic_id = ?1", nativeQuery = true)
