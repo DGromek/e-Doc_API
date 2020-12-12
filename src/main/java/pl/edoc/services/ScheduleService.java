@@ -8,13 +8,11 @@ import pl.edoc.repository.ScheduleRepository;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
 
 @Service
 public class ScheduleService {
 
-    private ScheduleRepository scheduleRepository;
+    private final ScheduleRepository scheduleRepository;
 
     @Autowired
     public ScheduleService(ScheduleRepository scheduleRepository) {

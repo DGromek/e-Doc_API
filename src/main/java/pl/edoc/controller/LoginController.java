@@ -17,8 +17,8 @@ import java.util.Collections;
 
 @RestController
 public class LoginController {
-    private PatientService patientService;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final PatientService patientService;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public LoginController(PatientService patientService, BCryptPasswordEncoder bCryptPasswordEncoder) {

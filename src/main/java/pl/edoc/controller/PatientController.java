@@ -15,7 +15,7 @@ import pl.edoc.services.PatientService;
 @Controller
 @RequestMapping("/patients")
 public class PatientController {
-    private PatientService patientService;
+    private final PatientService patientService;
 
     @Autowired
     public PatientController(PatientService patientService) {

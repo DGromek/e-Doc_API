@@ -23,8 +23,8 @@ import java.time.LocalTime;
 public class AppointmentController {
 
     public static final int TIMEZONE_GMT_PLUS2 = 1;
-    private AppointmentService appointmentService;
-    private TermService termService;
+    private final AppointmentService appointmentService;
+    private final TermService termService;
 
     @Autowired
     public AppointmentController(AppointmentService appointmentService, TermService termService) {

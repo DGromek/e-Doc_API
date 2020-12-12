@@ -1,7 +1,6 @@
 package pl.edoc.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.edoc.dto.PatientDTO;
@@ -11,7 +10,7 @@ import pl.edoc.repository.PatientRepository;
 @Service
 public class PatientService {
     private PatientRepository patientRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public PatientService(PatientRepository patientRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {

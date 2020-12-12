@@ -9,6 +9,6 @@ import java.time.LocalTime;
 @Getter
 public class DailySchedule {
 
-    private LocalTime startingHour;
-    private LocalTime endingHour;
+    private final LocalTime startingHour;
+    private final LocalTime endingHour;
 }

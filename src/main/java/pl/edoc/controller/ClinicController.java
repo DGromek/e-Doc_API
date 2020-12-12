@@ -14,7 +14,7 @@ import pl.edoc.services.ClinicService;
 @Controller
 @RequestMapping("/clinics")
 public class ClinicController {
-    private ClinicService clinicService;
+    private final ClinicService clinicService;
 
     @Autowired
     public ClinicController(ClinicService clinicService) {

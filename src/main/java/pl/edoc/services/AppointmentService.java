@@ -12,18 +12,13 @@ import pl.edoc.repository.AppointmentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Service
 public class AppointmentService {
 
-    private AppointmentRepository appointmentRepository;
+    private final AppointmentRepository appointmentRepository;
     @PersistenceContext
     private EntityManager entityManager;
 

@@ -7,7 +7,7 @@ import pl.edoc.repository.DoctorRepository;
 
 @Service
 public class DoctorService {
-    private DoctorRepository doctorRepository;
+    private final DoctorRepository doctorRepository;
 
     @Autowired
     public DoctorService(DoctorRepository doctorRepository) {

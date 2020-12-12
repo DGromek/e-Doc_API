@@ -8,14 +8,13 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Service
 public class TermService {
 
-    private AppointmentService appointmentService;
-    private ScheduleService scheduleService;
+    private final AppointmentService appointmentService;
+    private final ScheduleService scheduleService;
 
     @Autowired
     public TermService(AppointmentService appointmentService, ScheduleService scheduleService) {
