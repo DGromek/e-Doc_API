@@ -15,4 +15,10 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
             + "INNER JOIN clinic c on s.clinic_id = c.id "
             + "WHERE clinic_id = ?1", nativeQuery = true)
     Iterable<Doctor> findAllByClinicId(int clinicId);
+
+    @Query(value = "SELECT * FROM doctor "
+            + "INNER JOIN schedule s on doctor.id = s.doctor_id "
+            + "INNER JOIN clinic c on s.clinic_id = c.id "
+            + "WHERE clinic_id = ?1 AND doctor.speciality = ?2", nativeQuery = true)
+    Iterable<Doctor> findAllByClinicIdAndSpeciality(int clinicId, String speciality);
 }

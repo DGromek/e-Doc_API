@@ -35,6 +35,10 @@ public class AppointmentService {
         return appointmentRepository.findAllDatesOfAppointmentsOnGivenDate(dateOfAppointment, clinicId, doctorId);
     }
 
+    Appointment findByClinicAndDoctorAndDateOfAppointment(Clinic clinic, Doctor doctor, LocalDateTime dateTime) {
+        return appointmentRepository.findByClinicAndDoctorAndDateOfAppointment(clinic, doctor, dateTime);
+    }
+
     public Appointment save(AppointmentDTO appointmentDto, String userPesel) {
         Session session = entityManager.unwrap(Session.class);
         Doctor doctor = session.get(Doctor.class, appointmentDto.getDoctorId());

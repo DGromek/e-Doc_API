@@ -17,4 +17,8 @@ public class DoctorService {
     public Iterable<Doctor> findAllByClinicId(int clinicId) {
         return doctorRepository.findAllByClinicId(clinicId);
     }
+
+    public Iterable<Doctor> findAllByClinicIdAndSpeciality(int clinicId, String speciality) {
+        return doctorRepository.findAllByClinicIdAndSpeciality(clinicId, speciality);
+    }
 }

@@ -52,4 +52,9 @@ public class AppointmentController {
     public ResponseEntity<Iterable<LocalTime>> getFreeTermsForGivenDate(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, int clinicId, int doctorId) {
         return new ResponseEntity<>(termService.getAllFreeTermsForGivenDate(date, clinicId, doctorId), HttpStatus.OK);
     }
+
+    @GetMapping("/free-terms/test")
+    public ResponseEntity<Iterable> getFreeTermsForGivenDate() {
+        return new ResponseEntity<>(termService.getAllFreeTerms(LocalDate.now(), "Pediatra"), HttpStatus.OK);
+    }
 }

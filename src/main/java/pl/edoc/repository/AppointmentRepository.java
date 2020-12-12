@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.edoc.entity.Appointment;
+import pl.edoc.entity.Clinic;
+import pl.edoc.entity.Doctor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,4 +22,6 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Intege
             + "AND clinic_id=?2 "
             + "AND doctor_id=?3", nativeQuery = true)
     Iterable<LocalDateTime> findAllDatesOfAppointmentsOnGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId);
+
+    Appointment findByClinicAndDoctorAndDateOfAppointment(Clinic clinic, Doctor doctor, LocalDateTime dateOfAppointment);
 }
