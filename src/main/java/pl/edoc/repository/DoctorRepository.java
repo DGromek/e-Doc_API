@@ -24,4 +24,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     @Query(value = "SELECT speciality from doctor order by speciality desc", nativeQuery = true)
     Iterable<String> getSpecialities();
+
+    @Query(value = "SELECT concat(first_name, ' ', last_name) from doctor order by speciality desc", nativeQuery = true)
+    Iterable<String> getDoctorsNames();
 }

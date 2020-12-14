@@ -37,4 +37,8 @@ public class ClinicService {
     public Iterable<String> getCities() {
         return clinicRepository.getCities();
     }
+
+    public Iterable<String> getClinicsNames() {
+        return clinicRepository.getClinicNames();
+    }
 }

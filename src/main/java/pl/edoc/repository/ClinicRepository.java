@@ -18,4 +18,7 @@ public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
 
     @Query(value = "SELECT city from clinic order by city DESC", nativeQuery = true)
     Iterable<String> getCities();
+
+    @Query(value = "SELECT name from clinic order by city DESC", nativeQuery = true)
+    Iterable<String> getClinicNames();
 }

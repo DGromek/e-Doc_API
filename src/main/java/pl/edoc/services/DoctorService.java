@@ -25,4 +25,8 @@ public class DoctorService {
     public Iterable<String> getSpecialities() {
         return doctorRepository.getSpecialities();
     }
+
+    public Iterable<String> getDoctorsNames() {
+        return doctorRepository.getDoctorsNames();
+    }
 }

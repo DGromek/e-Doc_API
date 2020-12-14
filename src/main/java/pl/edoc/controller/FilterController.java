@@ -22,8 +22,18 @@ public class FilterController {
         return new ResponseEntity<>(clinicService.getCities(), HttpStatus.OK);
     }
 
+    @GetMapping("/clinicNames")
+    public ResponseEntity<Iterable<String>> getClinicsNames() {
+        return new ResponseEntity<>(clinicService.getClinicsNames(), HttpStatus.OK);
+    }
+
     @GetMapping("/specialities")
     public ResponseEntity<Iterable<String>> getSpecialities() {
         return new ResponseEntity<>(doctorService.getSpecialities(), HttpStatus.OK);
+    }
+
+    @GetMapping("/doctorsNames")
+    public ResponseEntity<Iterable<String>> getDoctorsNames() {
+        return new ResponseEntity<>(doctorService.getDoctorsNames(), HttpStatus.OK);
     }
 }
