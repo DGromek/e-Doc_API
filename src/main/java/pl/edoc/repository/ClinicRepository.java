@@ -16,4 +16,6 @@ public interface ClinicRepository extends JpaRepository<Clinic, Integer> {
             "where s.clinic_id = ?1", nativeQuery = true)
     Iterable<String> getAllSpecialitiesInClinic(int clinicId);
 
+    @Query(value = "SELECT city from clinic order by city DESC", nativeQuery = true)
+    Iterable<String> getCities();
 }
