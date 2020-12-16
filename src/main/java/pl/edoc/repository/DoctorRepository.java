@@ -22,7 +22,7 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
             + "WHERE clinic_id = ?1 AND doctor.speciality = ?2", nativeQuery = true)
     Iterable<Doctor> findAllByClinicIdAndSpeciality(int clinicId, String speciality);
 
-    @Query(value = "SELECT speciality from doctor order by speciality desc", nativeQuery = true)
+    @Query(value = "SELECT DISTINCT speciality from doctor order by speciality desc", nativeQuery = true)
     Iterable<String> getSpecialities();
 
     @Query(value = "SELECT concat(first_name, ' ', last_name) from doctor order by speciality desc", nativeQuery = true)
