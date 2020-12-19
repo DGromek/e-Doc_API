@@ -27,4 +27,16 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
 
     @Query(value = "SELECT concat(first_name, ' ', last_name) from doctor order by speciality desc", nativeQuery = true)
     Iterable<String> getDoctorsNames();
+
+    @Query(value = "SELECT * FROM doctor as d "
+            + "INNER JOIN schedule s on d.id = s.doctor_id "
+            + "INNER JOIN clinic c on s.clinic_id = c.id "
+            + "WHERE d.speciality = ?1 AND c.name = ?2 AND concat(d.first_name, ' ', d.last_name) = ?3", nativeQuery = true)
+    Doctor findBySpecialityAndClinicNameAndDoctorName(String speciality, String clinicName, String doctorName);
+
+    @Query(value = "SELECT * FROM doctor as d "
+            + "INNER JOIN schedule s on d.id = s.doctor_id "
+            + "INNER JOIN clinic c on s.clinic_id = c.id "
+            + "WHERE d.speciality = ?1 AND c.name = ?2", nativeQuery = true)
+    Iterable<Doctor> findBySpecialityAndClinicName(String speciality, String clinicName);
 }

@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import pl.edoc.dto.AppointmentDTO;
 import pl.edoc.entity.Appointment;
+import pl.edoc.model.FreeTerm;
 import pl.edoc.services.AppointmentService;
 import pl.edoc.services.TermService;
 
@@ -54,7 +56,11 @@ public class AppointmentController {
     }
 
     @GetMapping("/free-terms/test")
-    public ResponseEntity<Iterable> getFreeTermsForGivenDate() {
-        return new ResponseEntity<>(termService.getAllFreeTerms(LocalDate.now(), "Pediatra"), HttpStatus.OK);
+    public ResponseEntity<Iterable<FreeTerm>> getFreeTerms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                           @RequestParam String city,
+                                                           @RequestParam String specialty,
+                                                           @RequestParam(required = false) String clinicName,
+                                                           @RequestParam(required = false) String doctorName) {
+        return new ResponseEntity<>(termService.getAllFreeTerms(date, city, specialty, clinicName, doctorName), HttpStatus.OK);
     }
 }

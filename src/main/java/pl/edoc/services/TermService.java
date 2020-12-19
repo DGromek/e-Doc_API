@@ -29,6 +29,7 @@ public class TermService {
         this.doctorService = doctorService;
     }
 
+    @Deprecated
     public Iterable<LocalTime> getAllFreeTermsForGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId) {
         Iterable<LocalDateTime> takenTerms = appointmentService.findAllDatesOfAppointmentsForGivenDate(dateOfAppointment, clinicId,
                 doctorId);
@@ -52,12 +53,42 @@ public class TermService {
         return freeTerms;
     }
 
-    //Kryteria wyszukiwania
-    //Obowiązkowe: specjalizacja, od kiedy
-    //Opcjonalne: miasto, imię i nazwisko lekarza, placówka, widełki czasowe
-    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String speciality) {
+    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String city, String speciality, String clinicName, String doctorName) {
+        Clinic clinic = clinicService.findByCityAndName(city, clinicName);
+        Doctor doctor = doctorService.findBySpecialityAndClinicNameAndDoctorName(speciality, clinicName, doctorName);
+        return new ArrayList<>(generateFreeTerms(clinic, doctor, sinceWhen));
+    }
+
+    public List<FreeTerm> getAllFreeTermsWithClinicName(LocalDate sinceWhen, String city, String speciality, String clinicName) {
         List<FreeTerm> result = new ArrayList<>();
-        Iterable<Clinic> clinics = clinicService.findAll();
+        Clinic clinic = clinicService.findByCityAndName(city, clinicName);
+        Iterable<Doctor> doctors = doctorService.findBySpecialityAndClinicName(speciality, clinicName);
+        for (Doctor doctor : doctors) {
+            result.addAll(generateFreeTerms(clinic, doctor, sinceWhen));
+            if (result.size() >= 20) {
+                return result;
+            }
+        }
+        return result;
+    }
+
+    public List<FreeTerm> getAllFreeTermsWithDoctorName(LocalDate sinceWhen, String city, String speciality, String doctorName) {
+        List<FreeTerm> result = new ArrayList<>();
+        Iterable<Clinic> clinics = clinicService.findAllByCity(city);
+        for (Clinic clinic : clinics) {
+            Doctor doctor = doctorService.findBySpecialityAndClinicNameAndDoctorName(speciality, clinic.getName(), doctorName);
+            result.addAll(generateFreeTerms(clinic, doctor, sinceWhen));
+            if (result.size() >= 20) {
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String city, String speciality) {
+        List<FreeTerm> result = new ArrayList<>();
+        Iterable<Clinic> clinics = clinicService.findAllByCity(city);
         for (Clinic clinic : clinics) {
             Iterable<Doctor> doctors = doctorService.findAllByClinicIdAndSpeciality(clinic.getId(), speciality);
             for (Doctor doctor : doctors) {
@@ -68,13 +99,6 @@ public class TermService {
             }
         }
         return result;
-        // weź wszystkie placówki medyczne
-        // for placówki medyczne
-        // weź wszystkich lekarzy z daną specjalizacją
-        // for lekarze
-        // weź schedule lekarza w tej placówce medycznej
-        // generuj FreeTermy na 2 miesiące do przodu max 20 propozycji (?)
-        // wyrzuć z FreeTermów wszystkie mające tego samego lekarza, klinikę i czas co appointment.
     }
 
     private List<FreeTerm> generateFreeTerms(Clinic clinic, Doctor doctor, LocalDate date) {

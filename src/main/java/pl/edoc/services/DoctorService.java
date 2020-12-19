@@ -29,4 +29,12 @@ public class DoctorService {
     public Iterable<String> getDoctorsNames() {
         return doctorRepository.getDoctorsNames();
     }
+
+    public Doctor findBySpecialityAndClinicNameAndDoctorName(String speciality, String clinicName, String doctorName) {
+        return doctorRepository.findBySpecialityAndClinicNameAndDoctorName(speciality, clinicName, doctorName);
+    }
+
+    public Iterable<Doctor> findBySpecialityAndClinicName(String speciality, String clinicName) {
+        return doctorRepository.findBySpecialityAndClinicName(speciality, clinicName);
+    }
 }

@@ -34,11 +34,23 @@ public class ClinicService {
         return clinicRepository.getOne(id);
     }
 
+    public Clinic getByName(String name) {
+        return clinicRepository.getByName(name);
+    }
+
     public Iterable<String> getCities() {
         return clinicRepository.getCities();
     }
 
     public Iterable<String> getClinicsNames() {
         return clinicRepository.getClinicNames();
+    }
+
+    public Iterable<Clinic> findAllByCity(String city) {
+        return clinicRepository.findAllByCity(city);
+    }
+
+    public Clinic findByCityAndName(String city, String clinicName) {
+        return clinicRepository.findByCityAndName(city, clinicName);
     }
 }
