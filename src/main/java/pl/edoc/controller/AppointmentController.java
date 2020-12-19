@@ -19,6 +19,7 @@ import pl.edoc.services.TermService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/appointments")
@@ -59,8 +60,8 @@ public class AppointmentController {
     public ResponseEntity<Iterable<FreeTerm>> getFreeTerms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
                                                            @RequestParam String city,
                                                            @RequestParam String specialty,
-                                                           @RequestParam(required = false) String clinicName,
-                                                           @RequestParam(required = false) String doctorName) {
+                                                           @RequestParam Optional<String> clinicName,
+                                                           @RequestParam Optional<String> doctorName) {
         return new ResponseEntity<>(termService.getAllFreeTerms(date, city, specialty, clinicName, doctorName), HttpStatus.OK);
     }
 }

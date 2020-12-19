@@ -12,10 +12,13 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TermService {
 
+    private static final int MAX_FREE_TERMS = 20;
+    private static final int MAX_DAYS_FORWARD = 14;
     private final AppointmentService appointmentService;
     private final ScheduleService scheduleService;
     private final ClinicService clinicService;
@@ -53,47 +56,14 @@ public class TermService {
         return freeTerms;
     }
 
-    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String city, String speciality, String clinicName, String doctorName) {
-        Clinic clinic = clinicService.findByCityAndName(city, clinicName);
-        Doctor doctor = doctorService.findBySpecialityAndClinicNameAndDoctorName(speciality, clinicName, doctorName);
-        return new ArrayList<>(generateFreeTerms(clinic, doctor, sinceWhen));
-    }
-
-    public List<FreeTerm> getAllFreeTermsWithClinicName(LocalDate sinceWhen, String city, String speciality, String clinicName) {
+    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String city, String speciality, Optional<String> clinicName, Optional<String> doctorName) {
         List<FreeTerm> result = new ArrayList<>();
-        Clinic clinic = clinicService.findByCityAndName(city, clinicName);
-        Iterable<Doctor> doctors = doctorService.findBySpecialityAndClinicName(speciality, clinicName);
-        for (Doctor doctor : doctors) {
-            result.addAll(generateFreeTerms(clinic, doctor, sinceWhen));
-            if (result.size() >= 20) {
-                return result;
-            }
-        }
-        return result;
-    }
-
-    public List<FreeTerm> getAllFreeTermsWithDoctorName(LocalDate sinceWhen, String city, String speciality, String doctorName) {
-        List<FreeTerm> result = new ArrayList<>();
-        Iterable<Clinic> clinics = clinicService.findAllByCity(city);
+        Iterable<Clinic> clinics = clinicService.findAll(city, clinicName);
         for (Clinic clinic : clinics) {
-            Doctor doctor = doctorService.findBySpecialityAndClinicNameAndDoctorName(speciality, clinic.getName(), doctorName);
-            result.addAll(generateFreeTerms(clinic, doctor, sinceWhen));
-            if (result.size() >= 20) {
-                return result;
-            }
-        }
-
-        return result;
-    }
-
-    public List<FreeTerm> getAllFreeTerms(LocalDate sinceWhen, String city, String speciality) {
-        List<FreeTerm> result = new ArrayList<>();
-        Iterable<Clinic> clinics = clinicService.findAllByCity(city);
-        for (Clinic clinic : clinics) {
-            Iterable<Doctor> doctors = doctorService.findAllByClinicIdAndSpeciality(clinic.getId(), speciality);
+            Iterable<Doctor> doctors = doctorService.findAll(clinic.getName(), speciality, doctorName);
             for (Doctor doctor : doctors) {
                 result.addAll(generateFreeTerms(clinic, doctor, sinceWhen));
-                if (result.size() >= 20) {
+                if (result.size() >= MAX_FREE_TERMS) {
                     return result;
                 }
             }
@@ -105,7 +75,7 @@ public class TermService {
         List<FreeTerm> freeTerms = new ArrayList<>();
         LocalDate dateIterator = date;
 
-        for (int i = 0; i < 14; i++) {
+        for (int i = 0; i < MAX_DAYS_FORWARD; i++) {
             DailySchedule dailySchedule = scheduleService.findScheduleForGivenDate(dateIterator, clinic.getId(), doctor.getId());
             for (LocalTime time = dailySchedule.getStartingHour(); time.isBefore(dailySchedule.getEndingHour()); time = time.plusMinutes(30)) {
                 LocalDateTime localDateTime = LocalDateTime.of(date, time);

@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import pl.edoc.entity.Doctor;
 import pl.edoc.repository.DoctorRepository;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Service
 public class DoctorService {
     private final DoctorRepository doctorRepository;
@@ -18,8 +21,11 @@ public class DoctorService {
         return doctorRepository.findAllByClinicId(clinicId);
     }
 
-    public Iterable<Doctor> findAllByClinicIdAndSpeciality(int clinicId, String speciality) {
-        return doctorRepository.findAllByClinicIdAndSpeciality(clinicId, speciality);
+    public Iterable<Doctor> findAll(String clinicName, String speciality, Optional<String> doctorName) {
+        if (doctorName.isPresent()) {
+            return Collections.singletonList(doctorRepository.findBySpecialityAndClinicNameAndDoctorName(clinicName, speciality, doctorName.get()));
+        }
+        return doctorRepository.findAllByClinicNameAndSpeciality(clinicName, speciality);
     }
 
     public Iterable<String> getSpecialities() {
@@ -28,13 +34,5 @@ public class DoctorService {
 
     public Iterable<String> getDoctorsNames() {
         return doctorRepository.getDoctorsNames();
-    }
-
-    public Doctor findBySpecialityAndClinicNameAndDoctorName(String speciality, String clinicName, String doctorName) {
-        return doctorRepository.findBySpecialityAndClinicNameAndDoctorName(speciality, clinicName, doctorName);
-    }
-
-    public Iterable<Doctor> findBySpecialityAndClinicName(String speciality, String clinicName) {
-        return doctorRepository.findBySpecialityAndClinicName(speciality, clinicName);
     }
 }

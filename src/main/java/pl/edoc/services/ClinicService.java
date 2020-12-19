@@ -7,6 +7,9 @@ import pl.edoc.entity.OpeningHours;
 import pl.edoc.repository.ClinicRepository;
 import pl.edoc.repository.OpeningHoursRepository;
 
+import java.util.Collections;
+import java.util.Optional;
+
 @Service
 public class ClinicService {
     private final ClinicRepository clinicRepository;
@@ -26,6 +29,13 @@ public class ClinicService {
         return clinicRepository.getAllSpecialitiesInClinic(clinicId);
     }
 
+    public Iterable<Clinic> findAll(String city, Optional<String> clinicName) {
+        if (clinicName.isPresent()) {
+            return Collections.singletonList(clinicRepository.findByCityAndName(city, clinicName.get()));
+        }
+        return clinicRepository.findAllByCity(city);
+    }
+
     public Iterable<Clinic> findAll() {
         return clinicRepository.findAll();
     }
@@ -34,23 +44,11 @@ public class ClinicService {
         return clinicRepository.getOne(id);
     }
 
-    public Clinic getByName(String name) {
-        return clinicRepository.getByName(name);
-    }
-
     public Iterable<String> getCities() {
         return clinicRepository.getCities();
     }
 
     public Iterable<String> getClinicsNames() {
         return clinicRepository.getClinicNames();
-    }
-
-    public Iterable<Clinic> findAllByCity(String city) {
-        return clinicRepository.findAllByCity(city);
-    }
-
-    public Clinic findByCityAndName(String city, String clinicName) {
-        return clinicRepository.findByCityAndName(city, clinicName);
     }
 }
