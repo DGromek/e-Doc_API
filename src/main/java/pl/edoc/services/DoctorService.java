@@ -23,16 +23,19 @@ public class DoctorService {
 
     public Iterable<Doctor> findAll(String clinicName, String speciality, Optional<String> doctorName) {
         if (doctorName.isPresent()) {
-            return Collections.singletonList(doctorRepository.findBySpecialityAndClinicNameAndDoctorName(clinicName, speciality, doctorName.get()));
+            return Collections.singletonList(doctorRepository.findByClinicNameAndSpecialityAndDoctorName(clinicName, speciality, doctorName.get()));
         }
         return doctorRepository.findAllByClinicNameAndSpeciality(clinicName, speciality);
     }
 
     public Iterable<String> getSpecialities() {
-        return doctorRepository.getSpecialities();
+        return doctorRepository.findAllSpecialities();
     }
 
-    public Iterable<String> getDoctorsNames() {
-        return doctorRepository.getDoctorsNames();
+    public Iterable<String> getDoctorsNames(String city, String speciality, Optional<String> clinicName) {
+        if (clinicName.isPresent()) {
+            return doctorRepository.findAllDoctorsNamesByCityAndSpecialityAndClinicName(city, speciality, clinicName.get());
+        }
+        return doctorRepository.findAllDoctorsNamesByCityAndSpeciality(city, speciality);
     }
 }

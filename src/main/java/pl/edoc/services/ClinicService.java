@@ -48,7 +48,10 @@ public class ClinicService {
         return clinicRepository.getCities();
     }
 
-    public Iterable<String> getClinicsNames() {
+    public Iterable<String> getClinicsNames(String city, Optional<String> doctorName) {
+        if (doctorName.isPresent()) {
+            return clinicRepository.findAllClinicNamesByCityAndDoctorName(city, doctorName.get());
+        }
         return clinicRepository.getClinicNames();
     }
 }
