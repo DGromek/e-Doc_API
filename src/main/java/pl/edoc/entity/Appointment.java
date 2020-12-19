@@ -55,4 +55,10 @@ public class Appointment {
         this.clinic = clinic;
         this.status = Status.PENDING;
     }
+
+    public Appointment(Clinic clinic, Doctor doctor, LocalDateTime localDateTime) {
+        this.clinic = clinic;
+        this.doctor = doctor;
+        this.dateOfAppointment = localDateTime;
+    }
 }

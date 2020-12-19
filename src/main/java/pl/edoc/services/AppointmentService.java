@@ -8,35 +8,44 @@ import pl.edoc.entity.Appointment;
 import pl.edoc.entity.Clinic;
 import pl.edoc.entity.Doctor;
 import pl.edoc.entity.Patient;
+import pl.edoc.model.DailySchedule;
 import pl.edoc.repository.AppointmentRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AppointmentService {
+    private static final int MAX_FREE_TERMS = 20;
+    public static final int VISIT_DURATION = 30;
 
-    private final AppointmentRepository appointmentRepository;
     @PersistenceContext
     private EntityManager entityManager;
+    private final AppointmentRepository appointmentRepository;
+    private final ClinicService clinicService;
+    private final DoctorService doctorService;
+    private final ScheduleService scheduleService;
 
     @Autowired
-    public AppointmentService(AppointmentRepository appointmentRepository) {
+    public AppointmentService(AppointmentRepository appointmentRepository, ClinicService clinicService, DoctorService doctorService, ScheduleService scheduleService) {
         this.appointmentRepository = appointmentRepository;
+        this.clinicService = clinicService;
+        this.doctorService = doctorService;
+        this.scheduleService = scheduleService;
     }
 
-    public Iterable<Appointment> findAllByPatient_Pesel(String pesel) {
+    public Iterable<Appointment> findAllByPatientPesel(String pesel) {
         return appointmentRepository.findAllByPatient_Pesel(pesel);
     }
 
     public Iterable<LocalDateTime> findAllDatesOfAppointmentsForGivenDate(LocalDate dateOfAppointment, int clinicId, int doctorId) {
         return appointmentRepository.findAllDatesOfAppointmentsOnGivenDate(dateOfAppointment, clinicId, doctorId);
-    }
-
-    Appointment findByClinicAndDoctorAndDateOfAppointment(Clinic clinic, Doctor doctor, LocalDateTime dateTime) {
-        return appointmentRepository.findByClinicAndDoctorAndDateOfAppointment(clinic, doctor, dateTime);
     }
 
     public Appointment save(AppointmentDTO appointmentDto, String userPesel) {
@@ -47,5 +56,43 @@ public class AppointmentService {
 
         Appointment appointmentToSave = new Appointment(appointmentDto, patient, doctor, clinic);
         return appointmentRepository.save(appointmentToSave);
+    }
+
+    public List<Appointment> getFreeAppointments(LocalDate sinceWhen, String city, String speciality, Optional<String> clinicName, Optional<String> doctorName) {
+        List<Appointment> result = new ArrayList<>();
+        Iterable<Clinic> clinics = clinicService.findAll(city, clinicName);
+        LocalDate dateIterator = sinceWhen;
+
+        while (true) {
+            for (Clinic clinic : clinics) {
+                Iterable<Doctor> doctors = doctorService.findAll(clinic.getName(), speciality, doctorName);
+                for (Doctor doctor : doctors) {
+                    result.addAll(generateFreeAppointments(clinic, doctor, dateIterator));
+                    if (result.size() >= MAX_FREE_TERMS) {
+                        return result;
+                    }
+                }
+            }
+            dateIterator = dateIterator.plusDays(1);
+        }
+    }
+
+    private List<Appointment> generateFreeAppointments(Clinic clinic, Doctor doctor, LocalDate date) {
+        List<Appointment> freeAppointments = new ArrayList<>();
+
+        DailySchedule dailySchedule = scheduleService.findScheduleForGivenDate(date, clinic.getId(), doctor.getId());
+        for (LocalTime time = dailySchedule.getStartingHour(); time.isBefore(dailySchedule.getEndingHour()); time = time.plusMinutes(VISIT_DURATION)) {
+            LocalDateTime localDateTime = LocalDateTime.of(date, time);
+            if (findByClinicAndDoctorAndDateOfAppointment(clinic, doctor, localDateTime) == null) {
+                Appointment freeAppoinment = new Appointment(clinic, doctor, localDateTime);
+                freeAppointments.add(freeAppoinment);
+            }
+        }
+
+        return freeAppointments;
+    }
+
+    private Appointment findByClinicAndDoctorAndDateOfAppointment(Clinic clinic, Doctor doctor, LocalDateTime dateTime) {
+        return appointmentRepository.findByClinicAndDoctorAndDateOfAppointment(clinic, doctor, dateTime);
     }
 }

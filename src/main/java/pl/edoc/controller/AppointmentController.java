@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.edoc.dto.AppointmentDTO;
 import pl.edoc.entity.Appointment;
-import pl.edoc.model.FreeTerm;
 import pl.edoc.services.AppointmentService;
 import pl.edoc.services.TermService;
 
@@ -38,7 +37,7 @@ public class AppointmentController {
     @GetMapping
     public ResponseEntity<Iterable<Appointment>> getPatientAppointments(Authentication authentication) {
         String userPesel = (String) authentication.getPrincipal();
-        return new ResponseEntity<>(appointmentService.findAllByPatient_Pesel(userPesel), HttpStatus.OK);
+        return new ResponseEntity<>(appointmentService.findAllByPatientPesel(userPesel), HttpStatus.OK);
     }
 
     @PostMapping
@@ -56,12 +55,12 @@ public class AppointmentController {
         return new ResponseEntity<>(termService.getAllFreeTermsForGivenDate(date, clinicId, doctorId), HttpStatus.OK);
     }
 
-    @GetMapping("/free-terms/test")
-    public ResponseEntity<Iterable<FreeTerm>> getFreeTerms(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                                                           @RequestParam String city,
-                                                           @RequestParam String specialty,
-                                                           @RequestParam Optional<String> clinicName,
-                                                           @RequestParam Optional<String> doctorName) {
-        return new ResponseEntity<>(termService.getAllFreeTerms(date, city, specialty, clinicName, doctorName), HttpStatus.OK);
+    @GetMapping("/free-appointments")
+    public ResponseEntity<Iterable<Appointment>> getFreeAppointments(@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                                                                     @RequestParam String city,
+                                                                     @RequestParam String speciality,
+                                                                     @RequestParam Optional<String> clinicName,
+                                                                     @RequestParam Optional<String> doctorName) {
+        return new ResponseEntity<>(appointmentService.getFreeAppointments(date, city, speciality, clinicName, doctorName), HttpStatus.OK);
     }
 }
