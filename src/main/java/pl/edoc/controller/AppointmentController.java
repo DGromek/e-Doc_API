@@ -24,7 +24,6 @@ import java.util.Optional;
 @RequestMapping("/appointments")
 public class AppointmentController {
 
-    public static final int TIMEZONE_GMT_PLUS2 = 1;
     private final AppointmentService appointmentService;
     private final TermService termService;
 
@@ -43,9 +42,6 @@ public class AppointmentController {
     @PostMapping
     public ResponseEntity<Appointment> savePatientAppointment(@RequestBody AppointmentDTO appointmentDto, Authentication authentication) {
         String userPesel = (String) authentication.getPrincipal();
-        // TODO: Make it more elegant way
-        appointmentDto.setDateOfAppointment(appointmentDto.getDateOfAppointment()
-                .plusHours(TIMEZONE_GMT_PLUS2)); //Because of the timezone
         return new ResponseEntity<>(appointmentService.save(appointmentDto, userPesel), HttpStatus.OK);
     }
 
