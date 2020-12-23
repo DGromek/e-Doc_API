@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @NoArgsConstructor
-public class Appointment {
+public class Appointment implements Comparable<Appointment> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -60,5 +60,15 @@ public class Appointment {
         this.clinic = clinic;
         this.doctor = doctor;
         this.dateOfAppointment = localDateTime;
+    }
+
+    @Override
+    public int compareTo(Appointment o) {
+        if (dateOfAppointment.isBefore(o.dateOfAppointment)) {
+            return 1;
+        } else if (dateOfAppointment.isAfter(o.dateOfAppointment)) {
+            return -1;
+        }
+        return 0;
     }
 }

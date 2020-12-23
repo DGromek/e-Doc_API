@@ -25,14 +25,14 @@ public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
     @Query(value = "SELECT DISTINCT speciality from doctor order by speciality desc", nativeQuery = true)
     Iterable<String> findAllSpecialities();
 
-    @Query(value = "SELECT concat(last_name, ' ', first_name) as full_name from doctor d "
+    @Query(value = "SELECT DISTINCT concat(last_name, ' ', first_name) as full_name from doctor d "
             + "INNER JOIN schedule s on d.id = s.doctor_id "
             + "INNER JOIN clinic c on s.clinic_id = c.id "
             + "WHERE c.city = ?1 AND d.speciality = ?2 "
             + "order by full_name desc", nativeQuery = true)
     Iterable<String> findAllDoctorsNamesByCityAndSpeciality(String city, String speciality);
 
-    @Query(value = "SELECT concat(last_name, ' ', first_name) as full_name from doctor d "
+    @Query(value = "SELECT DISTINCT concat(last_name, ' ', first_name) as full_name from doctor d "
             + "INNER JOIN schedule s on d.id = s.doctor_id "
             + "INNER JOIN clinic c on s.clinic_id = c.id "
             + "WHERE c.city = ?1 AND d.speciality = ?2 AND c.name = ?3 "
