@@ -65,9 +65,9 @@ public class Appointment implements Comparable<Appointment> {
     @Override
     public int compareTo(Appointment o) {
         if (dateOfAppointment.isBefore(o.dateOfAppointment)) {
-            return 1;
-        } else if (dateOfAppointment.isAfter(o.dateOfAppointment)) {
             return -1;
+        } else if (dateOfAppointment.isAfter(o.dateOfAppointment)) {
+            return 1;
         }
         return 0;
     }

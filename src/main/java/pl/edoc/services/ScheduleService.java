@@ -13,15 +13,20 @@ import java.time.LocalDate;
 public class ScheduleService {
 
     private final ScheduleRepository scheduleRepository;
+    private final DoctorService doctorService;
 
     @Autowired
-    public ScheduleService(ScheduleRepository scheduleRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, DoctorService doctorService) {
         this.scheduleRepository = scheduleRepository;
+        this.doctorService = doctorService;
     }
 
     public DailySchedule findScheduleForGivenDate(LocalDate date, int clinicId, int doctorId) {
         DayOfWeek dayOfWeek = date.getDayOfWeek();
+        return findScheduleForGivenDay(dayOfWeek, clinicId, doctorId);
+    }
 
+    public DailySchedule findScheduleForGivenDay(DayOfWeek dayOfWeek, int clinicId, int doctorId) {
         Schedule schedule = scheduleRepository.getByClinic_IdAndDoctor_Id(clinicId, doctorId);
         switch (dayOfWeek) {
             case MONDAY:
@@ -41,5 +46,4 @@ public class ScheduleService {
         }
         return null;
     }
-
 }
