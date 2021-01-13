@@ -38,4 +38,8 @@ public class DoctorService {
         }
         return doctorRepository.findAllDoctorsNamesByCityAndSpeciality(city, speciality);
     }
+
+    public Doctor findById(int doctorId) {
+        return doctorRepository.findById(doctorId).get();
+    }
 }

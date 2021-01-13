@@ -36,4 +36,8 @@ public class PatientService {
     public Patient findByPesel(String pesel) {
         return patientRepository.findByPesel(pesel);
     }
+
+    public Patient findByAppointmentId(int ratingId) {
+        return patientRepository.findByAppointmentId(ratingId);
+    }
 }
