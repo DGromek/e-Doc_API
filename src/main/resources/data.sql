@@ -24,6 +24,7 @@ VALUES ('Wojewódzkie Wielospecjalistyczne Centrum Onkologii i Traumatologii im.
 INSERT INTO appointment(date_of_appointment, clinic_id, doctor_id, patient_pesel, status)
 VALUES ('2020-06-02 13:30', 1, 1, '68072503271', 'DONE'),
        ('2020-09-12 16:30', 1, 1, '68072503271', 'DONE'),
+       ('2020-11-03 16:30', 1, 5, '68072503271', 'DONE'),
        ('2020-12-01 12:15', 2, 4, '68072503271', 'PENDING'),
        ('2020-08-12 08:00', 1, 3, '68072503271', 'CANCELED');
 
