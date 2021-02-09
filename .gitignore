@@ -159,3 +159,5 @@ mvnw
 mvnw.cmd
 
 # End of https://www.gitignore.io/api/java,maven,windows,intellij+all
+
+src/main/resources/application-dev.properties
